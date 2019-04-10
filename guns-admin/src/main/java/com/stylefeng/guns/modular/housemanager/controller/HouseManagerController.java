@@ -3,6 +3,8 @@ package com.stylefeng.guns.modular.housemanager.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.stylefeng.guns.core.base.controller.BaseController;
+import com.stylefeng.guns.core.common.exception.BizExceptionEnum;
+import com.stylefeng.guns.core.exception.GunsException;
 import com.stylefeng.guns.core.util.ToolUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -101,6 +103,9 @@ public class HouseManagerController extends BaseController {
     @RequestMapping(value = "/update")
     @ResponseBody
     public Object update(HouseManager houseManager) {
+        if (ToolUtil.isEmpty(houseManager) || houseManager.getId() == null) {
+            throw new GunsException(BizExceptionEnum.REQUEST_NULL);
+        }
         houseManagerService.updateById(houseManager);
         return SUCCESS_TIP;
     }
